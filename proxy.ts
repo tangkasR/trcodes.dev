@@ -17,7 +17,7 @@ const PUBLIC_PATHS = [
 
 const isDevelopment = process.env.NODE_ENV === "development";
 
-function createContentSecurityPolicy(nonce: string) {
+function createContentSecurityPolicy() {
   return [
     "default-src 'self'",
     "base-uri 'self'",
@@ -27,14 +27,10 @@ function createContentSecurityPolicy(nonce: string) {
     isDevelopment
       ? // HMR membutuhkan eval dan inline script.
         "script-src 'self' 'unsafe-inline' 'unsafe-eval'"
-      : // Next.js menempelkan nonce ke script framework dan bootstrap-nya.
-        `script-src 'self' 'nonce-${nonce}' 'strict-dynamic'`,
-
-    isDevelopment
-      ? // HMR dan React dev overlay menyuntikkan style inline.
-        "style-src 'self' 'unsafe-inline'"
-      : // Next.js menempelkan nonce ke seluruh <style> yang dibuatnya.
-        `style-src 'self' 'nonce-${nonce}'`,
+      : // Next.js App Router dengan Cache Components & PPR membutuhkan 'self' dan 'unsafe-inline' untuk hydration streaming.
+        "script-src 'self' 'unsafe-inline'",
+    // Style inline diizinkan untuk Next.js font, Tailwind v4 CSSOM, dan SweetAlert2.
+    "style-src 'self' 'unsafe-inline'",
     "img-src 'self' data: https: http:",
     "font-src 'self' data:",
     isDevelopment ? "connect-src 'self' ws: wss:" : "connect-src 'self'",
@@ -47,7 +43,7 @@ function createContentSecurityPolicy(nonce: string) {
 
 function nextWithCsp(request: NextRequest) {
   const nonce = Buffer.from(crypto.randomUUID()).toString("base64");
-  const contentSecurityPolicy = createContentSecurityPolicy(nonce);
+  const contentSecurityPolicy = createContentSecurityPolicy();
   const requestHeaders = new Headers(request.headers);
 
   requestHeaders.set("x-nonce", nonce);
