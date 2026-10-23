@@ -20,7 +20,6 @@ const newsreaderItalic = Newsreader({
 
 const syne = Syne({
   subsets: ["latin"],
-  weight: ["600", "700", "800"],
   variable: "--font-syne",
   display: "swap",
 });
