@@ -1,0 +1,26 @@
+# trcodes.dev — Tangkas Risdianto
+
+> Portfolio dan catatan teknis arsitektur web fullstack Next.js 16, PostgreSQL, Prisma 7, TypeScript, dan keamanan sistem enterprise oleh Tangkas Risdianto.
+
+## Profil Singkat
+- **Nama**: Tangkas Risdianto
+- **Peran**: Full Stack Developer
+- **Brand**: trcodes (trcodes.dev)
+- **Tagline**: Ngoding apa saja. Menceritakan perjalanannya.
+- **Keahlian Utama**: Next.js (App Router, Turbopack, Streaming, Server Actions), TypeScript, PostgreSQL, Prisma ORM, Enterprise Security (Strict CSP Nonce, TOTP MFA AES-256-GCM, Distributed Rate Limiting, RBAC).
+
+## Tautan Rujukan Utama
+- [Beranda](https://trcodes.dev/): Ringkasan profil, highlight proyek utama, daftar bab eksplorasi, dan tautan kontak.
+- [Pengalaman Kerja](https://trcodes.dev/experiences): Riwayat karier profesional, peran kerja, tanggung jawab teknis, dan pencapaian sistem.
+- [Sitemap XML](https://trcodes.dev/sitemap.xml): Peta seluruh indeks halaman web publik.
+- [Dokumentasi Lengkap LLM](https://trcodes.dev/llms-full.txt): Penjelasan mendalam tentang arsitektur sistem, studi kasus proyek, dan implementasi keamanan enterprise.
+
+## Proyek Pilihan
+- **User Role Management (URM)**:
+  - Deskripsi: Sistem tata kelola hak akses berbasis Role-Based Access Control (RBAC) dengan matriks izin modular (baca, tambah, ubah, hapus).
+  - Stack: Next.js 16, TypeScript, Prisma 7, PostgreSQL, Jose (JWT), Zod, Tailwind CSS.
+  - Fitur: Otentikasi dua faktor (MFA/TOTP), rate limiting terdistribusi berbasis PostgreSQL, manajemen sesi multi-device, dan audit trail keamanan.
+  - Bab Teknis:
+    - [Server Action](https://trcodes.dev/blog/user-role-management/server-action): Mutasi data aman di server dengan validasi Zod dan otorisasi berlapis.
+    - [Route Handler](https://trcodes.dev/blog/user-role-management/route-handler): API endpoint terproteksi untuk pencarian dan paginasi data.
+    - [Jose & Autentikasi](https://trcodes.dev/blog/user-role-management/jose-auth): Manajemen JWT HS256 dengan rotasi sessionVersion dan pembatalan instan.

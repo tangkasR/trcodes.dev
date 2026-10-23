@@ -1,0 +1,284 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../app/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+
+model Role {
+  uuid      String   @id @default(uuid(7)) @db.Uuid
+  name      String   @unique @db.VarChar(100)
+  desc      String?  @db.VarChar(255)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  users       User[]
+  permissions RolePermission[]
+
+  @@map("roles")
+}
+
+model Feature {
+  uuid             String   @id @default(uuid(7)) @db.Uuid
+  key              String   @unique @db.VarChar(100)
+  name             String   @db.VarChar(100)
+  desc             String?  @db.VarChar(255)
+  availableActions String[] @map("available_actions")
+  createdAt        DateTime @default(now()) @map("created_at")
+  updatedAt        DateTime @updatedAt @map("updated_at")
+
+  permissions RolePermission[]
+
+  @@map("features")
+}
+
+model RolePermission {
+  uuid          String   @id @default(uuid(7)) @db.Uuid
+  roleUuid      String   @map("role_uuid") @db.Uuid
+  featureUuid   String   @map("feature_uuid") @db.Uuid
+  isRead    Boolean  @default(false) @map("is_read")
+  isAdd     Boolean  @default(false) @map("is_add")
+  isEdit    Boolean  @default(false) @map("is_edit")
+  isDelete  Boolean  @default(false) @map("is_delete")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  role    Role    @relation(fields: [roleUuid], references: [uuid], onDelete: Cascade)
+  feature Feature @relation(fields: [featureUuid], references: [uuid], onDelete: Cascade)
+
+  @@unique([roleUuid, featureUuid])
+  @@index([featureUuid])
+  @@map("role_permissions")
+}
+
+model User {
+  uuid      String   @id @default(uuid(7)) @db.Uuid
+  name      String   @db.VarChar(100)
+  email     String   @unique @db.VarChar(191)
+  password  String   @db.VarChar(255)
+  roleUuid  String   @map("role_uuid") @db.Uuid
+  sessionVersion Int @default(0) @map("session_version")
+  mfaEnabled Boolean @default(false) @map("mfa_enabled")
+  mfaSecret  String?  @map("mfa_secret") @db.VarChar(255)
+  mfaRecoveryCodes String[] @default([]) @map("mfa_recovery_codes")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  role  Role   @relation(fields: [roleUuid], references: [uuid], onDelete: Restrict)
+  sessions UserSession[]
+
+  @@index([roleUuid])
+  @@map("users")
+}
+
+model UserSession {
+  uuid       String   @id @default(uuid(7)) @db.Uuid
+  userUuid   String   @map("user_uuid") @db.Uuid
+  ip         String?  @db.VarChar(64)
+  userAgent  String?  @map("user_agent") @db.VarChar(255)
+  createdAt  DateTime @default(now()) @map("created_at")
+  lastSeenAt DateTime @default(now()) @map("last_seen_at")
+  expiresAt  DateTime @map("expires_at")
+
+  user User @relation(fields: [userUuid], references: [uuid], onDelete: Cascade)
+
+  @@index([userUuid, expiresAt])
+  @@index([expiresAt])
+  @@map("user_sessions")
+}
+
+model RateLimitBucket {
+  key       String   @id @db.VarChar(191)
+  count     Int      @default(1)
+  resetAt   DateTime @map("reset_at")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@index([resetAt])
+  @@map("rate_limit_buckets")
+}
+
+model MfaAttempt {
+  uuid      String   @id @default(uuid(7)) @db.Uuid
+  userUuid  String?  @map("user_uuid") @db.Uuid
+  ip        String   @db.VarChar(64)
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@index([userUuid, createdAt])
+  @@index([ip, createdAt])
+  @@index([createdAt])
+  @@map("mfa_attempts")
+}
+
+model LoginAttempt {
+  uuid      String   @id @default(uuid(7)) @db.Uuid
+  email     String   @db.VarChar(191)
+  ip        String   @db.VarChar(64)
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@index([email, ip, createdAt])
+  @@index([ip, createdAt])
+  @@index([createdAt])
+  @@map("login_attempts")
+}
+
+model AuditLog {
+  uuid       String   @id @default(uuid(7)) @db.Uuid
+  actorUuid  String?  @map("actor_uuid") @db.Uuid
+  actorName  String?  @map("actor_name") @db.VarChar(100)
+  actorEmail String?  @map("actor_email") @db.VarChar(191)
+  action     String   @db.VarChar(60)
+  targetType String?  @map("target_type") @db.VarChar(50)
+  targetUuid String?  @map("target_uuid") @db.VarChar(64)
+  detail     String?  @db.VarChar(1000)
+  ip         String?  @db.VarChar(64)
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  @@index([actorUuid, createdAt])
+  @@index([action, createdAt])
+  @@index([createdAt])
+  @@map("audit_logs")
+}
+
+enum PublishStatus {
+  DRAFT
+  PUBLISHED
+}
+
+enum ContactPlatform {
+  EMAIL
+  WHATSAPP
+  INSTAGRAM
+  GITHUB
+  LINKEDIN
+}
+
+// Satu baris saja (key = "main"): identitas dan brand
+model Profile {
+  uuid        String   @id @default(uuid(7)) @db.Uuid
+  key         String   @unique @default("main") @db.VarChar(20)
+  fullName    String   @map("full_name") @db.VarChar(100)      // Tangkas Risdianto
+  title       String   @db.VarChar(100)                         // Full Stack Developer
+  brand       String   @db.VarChar(50)                          // trcodes.dev
+  contentName String   @map("content_name") @db.VarChar(100)    // ngoding suka-suka
+  tagline     String   @db.VarChar(150)
+  intro       String   @db.VarChar(600)                         // perkenalan singkat
+  bio         String?                                           // perkenalan panjang
+  photoUrl    String?  @map("photo_url") @db.VarChar(500)
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  @@map("profiles")
+}
+
+model ContactLink {
+  uuid        String          @id @default(uuid(7)) @db.Uuid
+  platform    ContactPlatform @unique                           // satu tautan per platform
+  displayText String          @map("display_text") @db.VarChar(150) // "@username"
+  url         String          @db.VarChar(500)
+  sortOrder   Int             @default(0) @map("sort_order")
+  isVisible   Boolean         @default(true) @map("is_visible")
+  createdAt   DateTime        @default(now()) @map("created_at")
+  updatedAt   DateTime        @updatedAt @map("updated_at")
+
+  @@map("contact_links")
+}
+
+// Satu hasil project: User Role Management, MyPocket, iSmart, dan seterusnya
+model Project {
+  uuid            String        @id @default(uuid(7)) @db.Uuid
+  slug            String        @unique @db.VarChar(100)       // user-role-management
+  name            String        @db.VarChar(100)
+  short           String        @db.VarChar(255)               // satu kalimat ringkas
+  description     String                                        // paragraf penjelasan
+  features        String[]                                      // "Apa yang bisa dilakukannya"
+  stack           String[]                                      // "Teknologi yang dipakai"
+  demoImageUrl    String?       @map("demo_image_url") @db.VarChar(500)
+  demoVideoUrl    String?       @map("demo_video_url") @db.VarChar(500) // diisi nanti, menggantikan gambar
+  chaptersHeading String?       @map("chapters_heading") @db.VarChar(150)
+  isDefault       Boolean       @default(false) @map("is_default")      // project utama di hero
+  status          PublishStatus @default(DRAFT)
+  sortOrder       Int           @default(0) @map("sort_order")
+  createdAt       DateTime      @default(now()) @map("created_at")
+  updatedAt       DateTime      @updatedAt @map("updated_at")
+
+  chapters Chapter[]
+
+  @@index([status, sortOrder])
+  @@map("projects")
+}
+
+// Satu bab di dalam sebuah project
+model Chapter {
+  uuid        String        @id @default(uuid(7)) @db.Uuid
+  projectUuid String        @map("project_uuid") @db.Uuid
+  slug        String        @db.VarChar(100)                   // server-action
+  title       String        @db.VarChar(150)
+  icon        String        @db.VarChar(50)                    // kelas FontAwesome, mis. "fa-bolt"
+  definition  String                                            // "Apa itu"
+  application String                                            // "Cara saya memakainya"
+  teaser      String?                                           // "Yang bikin penasaran"
+  coverUrl    String?       @map("cover_url") @db.VarChar(500)
+  coverAlt    String?       @map("cover_alt") @db.VarChar(255)
+  content     Json          @default("[]")                     // isi lengkap halaman bab (blok)
+  status      PublishStatus @default(DRAFT)
+  sortOrder   Int           @default(0) @map("sort_order")
+  publishedAt DateTime?     @map("published_at")
+  createdAt   DateTime      @default(now()) @map("created_at")
+  updatedAt   DateTime      @updatedAt @map("updated_at")
+
+  project Project @relation(fields: [projectUuid], references: [uuid], onDelete: Cascade)
+
+  @@unique([projectUuid, slug])
+  @@index([projectUuid, status, sortOrder])
+  @@map("chapters")
+}
+
+model Experience {
+  uuid         String    @id @default(uuid(7)) @db.Uuid
+  slug         String    @unique @db.VarChar(100)              // ais-technology-asia
+  organization String    @db.VarChar(150)
+  role         String    @db.VarChar(150)
+  startDate    DateTime  @map("start_date") @db.Date
+  endDate      DateTime? @map("end_date") @db.Date             // kosong = sampai sekarang
+  summary      String    @db.VarChar(500)
+  duties       String[]                                          // "Yang saya kerjakan"
+  results      String[]                                          // "Hasilnya"
+  stack        String[]
+  isVisible    Boolean   @default(true) @map("is_visible")
+  createdAt    DateTime  @default(now()) @map("created_at")
+  updatedAt    DateTime  @updatedAt @map("updated_at")
+
+  @@index([isVisible, startDate])
+  @@map("experiences")
+}
+
+model Certification {
+  uuid          String   @id @default(uuid(7)) @db.Uuid
+  title         String   @db.VarChar(200)
+  issuer        String   @db.VarChar(150)
+  year          Int
+  credentialUrl String?  @map("credential_url") @db.VarChar(500)
+  sortOrder     Int      @default(0) @map("sort_order")
+  isVisible     Boolean  @default(true) @map("is_visible")
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+
+  @@index([isVisible, year])
+  @@map("certifications")
+}
+
+model Education {
+  uuid      String   @id @default(uuid(7)) @db.Uuid
+  school    String   @db.VarChar(200)
+  major     String   @db.VarChar(150)
+  startYear Int      @map("start_year")
+  endYear   Int?     @map("end_year")
+  sortOrder Int      @default(0) @map("sort_order")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("educations")
+}
