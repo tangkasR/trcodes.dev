@@ -39,6 +39,8 @@ COPY --from=builder /app/package.json ./package.json
 COPY --from=builder /app/app/generated ./app/generated
 COPY --from=builder /app/prisma ./prisma
 COPY --from=builder /app/prisma7.config.ts ./prisma7.config.ts
+COPY --from=builder /app/config.ts ./config.ts
+COPY --from=builder /app/tsconfig.json ./tsconfig.json
 
 USER nextjs
 
