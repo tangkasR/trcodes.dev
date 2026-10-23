@@ -11,3 +11,21 @@ export async function register() {
     }
   }
 }
+
+import type { Instrumentation } from "next";
+
+export const onRequestError: Instrumentation.onRequestError = async (
+  err,
+  request,
+  context
+) => {
+  console.error("[Server Error Details]", {
+    path: request.path,
+    method: request.method,
+    message: err instanceof Error ? err.message : String(err),
+    stack: err instanceof Error ? err.stack : undefined,
+    digest: typeof err === "object" && err !== null && "digest" in err ? (err as Record<string, unknown>).digest : undefined,
+    routerKind: context.routerKind,
+    routeType: context.routeType,
+  });
+};
