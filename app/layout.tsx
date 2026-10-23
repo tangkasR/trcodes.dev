@@ -11,10 +11,8 @@ import "./globals.css";
 import "sweetalert2/dist/sweetalert2.css";
 import Providers from "./providers";
 
-// CSP nonce dibuat per request. Semua route harus dirender saat request agar
-// Next.js bisa menempelkan nonce ke script framework dan bootstrap.
+// CSP nonce dibuat per request di proxy.ts
 export const instant = false;
-
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -51,19 +49,14 @@ export const metadata: Metadata = {
   },
 };
 
-import { headers } from "next/headers";
-
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const nonce = (await headers()).get("x-nonce") ?? undefined;
-
   return (
     <html
       lang="id"
-      nonce={nonce}
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="antialiased">
@@ -72,6 +65,3 @@ export default async function RootLayout({
     </html>
   );
 }
-
-
-

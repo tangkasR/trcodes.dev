@@ -32,6 +32,8 @@ const nextConfig: NextConfig = {
   cacheComponents: true,
   partialPrefetching: true,
   turbopack: {
+
+
     rules: {
       "*.css": {
         // Do not run Tailwind over Next's generated font CSS (it breaks
