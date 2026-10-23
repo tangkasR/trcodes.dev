@@ -28,7 +28,8 @@ function createContentSecurityPolicy(nonce: string) {
       ? // HMR membutuhkan eval dan inline script.
         "script-src 'self' 'unsafe-inline' 'unsafe-eval'"
       : // Next.js menempelkan nonce ke script framework dan bootstrap-nya.
-        `script-src 'self' 'nonce-${nonce}'`,
+        `script-src 'self' 'nonce-${nonce}' 'strict-dynamic'`,
+
     isDevelopment
       ? // HMR dan React dev overlay menyuntikkan style inline.
         "style-src 'self' 'unsafe-inline'"
@@ -98,6 +99,7 @@ export async function proxy(request: NextRequest) {
 export const config = {
   // api dikecualikan: Route Handler mengecek auth sendiri dan membalas 401 (bukan redirect)
   matcher: [
-    "/((?!api|_next/static|_next/image|favicon.ico|.*\\.(?:png|jpg|jpeg|svg|webp|ico|css|txt|xml)$).*)",
+    "/((?!api|_next/static|_next/image|favicon.ico|manifest.webmanifest|.*\\.(?:png|jpg|jpeg|svg|webp|ico|css|txt|xml|webmanifest|json)$).*)",
   ],
 };
+

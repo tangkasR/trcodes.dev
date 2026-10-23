@@ -51,14 +51,19 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+import { headers } from "next/headers";
+
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const nonce = (await headers()).get("x-nonce") ?? undefined;
+
   return (
     <html
       lang="id"
+      nonce={nonce}
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="antialiased">
@@ -67,4 +72,6 @@ export default function RootLayout({
     </html>
   );
 }
+
+
 
