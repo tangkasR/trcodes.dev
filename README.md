@@ -153,7 +153,7 @@ cp .env.example .env
 Sesuaikan nilai-nilai berikut di dalam `.env`:
 ```env
 # Koneksi Basis Data PostgreSQL
-DATABASE_URL="postgresql://postgres:PASSWORD@localhost:5432/trcodes_db"
+DATABASE_URL="postgresql://postgres:PASSWORD@localhost:5432/db_trcodes"
 
 # Secret Session JWT (Minimal 32 Karakter Acak)
 SESSION_SECRET="kombinasi-string-acak-super-aman-minimal-32-karakter"

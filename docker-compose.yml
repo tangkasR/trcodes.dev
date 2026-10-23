@@ -5,7 +5,7 @@ services:
     container_name: trcodes_postgres
     restart: unless-stopped
     environment:
-      POSTGRES_DB: ${POSTGRES_DB:-trcodes_db}
+      POSTGRES_DB: ${POSTGRES_DB:-db_trcodes}
       POSTGRES_USER: ${POSTGRES_USER:-trcodes_user}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     volumes:
@@ -13,7 +13,7 @@ services:
     networks:
       - trcodes_net
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-trcodes_user} -d ${POSTGRES_DB:-trcodes_db}"]
+      test: [ "CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-trcodes_user} -d ${POSTGRES_DB:-db_trcodes}" ]
       interval: 5s
       timeout: 5s
       retries: 5
@@ -27,7 +27,7 @@ services:
     restart: unless-stopped
     environment:
       NODE_ENV: production
-      DATABASE_URL: postgresql://${POSTGRES_USER:-trcodes_user}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-trcodes_db}?schema=public
+      DATABASE_URL: postgresql://${POSTGRES_USER:-trcodes_user}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-db_trcodes}?schema=public
       SESSION_SECRET: ${SESSION_SECRET}
       MFA_ENCRYPTION_KEY: ${MFA_ENCRYPTION_KEY:-}
       SEED_ADMIN_NAME: ${SEED_ADMIN_NAME:-Super Administrator}
