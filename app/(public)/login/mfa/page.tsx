@@ -11,6 +11,8 @@ async function MfaChallengePage() {
   return <MfaPage email={challenge.email} />;
 }
 
+export const instant = false;
+
 export default function Page() {
   return (
     <Suspense fallback={<LoginSkeleton />}>
