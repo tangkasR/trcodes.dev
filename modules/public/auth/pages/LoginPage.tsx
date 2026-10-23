@@ -24,6 +24,9 @@ const LoginPage = () => {
 
   useEffect(() => {
     if (state?.error) swalError("Login gagal", state.error);
+    if (state?.redirectTo) {
+      window.location.href = state.redirectTo;
+    }
   }, [state]);
 
   return (

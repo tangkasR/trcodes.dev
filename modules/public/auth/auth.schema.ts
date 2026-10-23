@@ -45,6 +45,7 @@ export type AuthFormState =
       error?: string; // error umum, ditampilkan lewat SweetAlert2
       fieldErrors?: Record<string, string>; // error per input
       values?: { name?: string; email?: string }; // agar input tidak kosong lagi (password tidak pernah dikembalikan)
+      redirectTo?: string;
     }
   | undefined;
 
@@ -53,5 +54,6 @@ export type MfaFormState =
       error?: string;
       fieldErrors?: Record<string, string>;
       values?: { code?: string };
+      redirectTo?: string;
     }
   | undefined;

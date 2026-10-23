@@ -54,7 +54,7 @@ export async function login(
 
   if (user.mfaEnabled) {
     await createMfaChallenge(user.uuid, user.sessionVersion, user.email);
-    redirect("/login/mfa");
+    return { redirectTo: "/login/mfa" };
   }
 
   await createSession(user.uuid, user.sessionVersion);
@@ -66,7 +66,7 @@ export async function login(
     detail: `Login berhasil untuk ${user.email}`,
     ip,
   });
-  redirect("/dashboard");
+  return { redirectTo: "/dashboard" };
 }
 
 export async function verifyMfaLogin(
@@ -134,7 +134,7 @@ export async function verifyMfaLogin(
       : `Login dengan TOTP untuk ${result.user.email}`,
     ip,
   });
-  redirect("/dashboard");
+  return { redirectTo: "/dashboard" };
 }
 
 export async function logout() {

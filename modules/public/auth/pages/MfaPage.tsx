@@ -17,6 +17,9 @@ export default function MfaPage({ email }: { email: string }) {
 
   useEffect(() => {
     if (state?.error) swalError("Verifikasi gagal", state.error);
+    if (state?.redirectTo) {
+      window.location.href = state.redirectTo;
+    }
   }, [state]);
 
   return (
