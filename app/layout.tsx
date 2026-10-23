@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import { connection } from "next/server";
 import { Geist, Geist_Mono } from "next/font/google";
+
 import {
   DEFAULT_SITE_DESCRIPTION,
   DEFAULT_SITE_TITLE,
@@ -14,6 +14,7 @@ import Providers from "./providers";
 // CSP nonce dibuat per request. Semua route harus dirender saat request agar
 // Next.js bisa menempelkan nonce ke script framework dan bootstrap.
 export const instant = false;
+
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -50,9 +51,11 @@ export const metadata: Metadata = {
   },
 };
 
-export default async function RootLayout({ children }: LayoutProps<"/">) {
-  await connection();
-
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html
       lang="id"
@@ -64,3 +67,4 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
     </html>
   );
 }
+
