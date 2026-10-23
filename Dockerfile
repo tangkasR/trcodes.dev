@@ -1,12 +1,13 @@
-# Stage 1: Base runtime environment
-FROM node:20-alpine AS base
+# Stage 1: Base runtime environment (Node 22 LTS untuk Prisma 7 & Next.js 16)
+FROM node:22-alpine AS base
 WORKDIR /app
 RUN apk add --no-cache libc6-compat
 
 # Stage 2: Install dependencies
 FROM base AS deps
 COPY package.json package-lock.json ./
-RUN npm ci
+# Gunakan --ignore-scripts agar postinstall (prisma generate) ditunda hingga builder stage
+RUN npm ci --ignore-scripts
 
 # Stage 3: Builder
 FROM base AS builder
@@ -28,7 +29,7 @@ ENV HOSTNAME="0.0.0.0"
 RUN addgroup --system --gid 1001 nodejs && \
     adduser --system --uid 1001 nextjs
 
-# Ensure upload directory exists with proper permissions
+# Pastikan folder upload ada dan memiliki izin tulis untuk user nextjs
 RUN mkdir -p /app/public/uploads && chown -R nextjs:nodejs /app/public/uploads
 
 COPY --from=builder /app/public ./public
