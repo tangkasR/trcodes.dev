@@ -18,7 +18,10 @@ import { getPermissionMap, getSession, isSuperAdminMfaEnforced } from "@/lib/aut
 import { formatDateTime } from "@/utils/format-date-time";
 import { getDashboardStats } from "../dashboard.queries";
 
+import { connection } from "next/server";
+
 export default async function DashboardPage() {
+  await connection();
   const session = await getSession();
   if (!session) redirect("/login");
 

@@ -39,7 +39,10 @@ export default function DashboardLayout({
   );
 }
 
+import { connection } from "next/server";
+
 async function DashboardShell({ children }: { children: React.ReactNode }) {
+  await connection();
   const session = await getSession();
   if (!session) redirect("/login");
 

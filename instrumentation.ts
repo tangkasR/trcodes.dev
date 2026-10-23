@@ -19,12 +19,22 @@ export const onRequestError: Instrumentation.onRequestError = async (
   request,
   context
 ) => {
+  const digest =
+    typeof err === "object" && err !== null && "digest" in err
+      ? String((err as Record<string, unknown>).digest)
+      : undefined;
+
+  // Abaikan sinyal internal Next.js untuk bailout prerender dan redirect
+  if (digest === "NEXT_REDIRECT" || digest === "DYNAMIC_SERVER_USAGE") {
+    return;
+  }
+
   console.error("[Server Error Details]", {
     path: request.path,
     method: request.method,
     message: err instanceof Error ? err.message : String(err),
     stack: err instanceof Error ? err.stack : undefined,
-    digest: typeof err === "object" && err !== null && "digest" in err ? (err as Record<string, unknown>).digest : undefined,
+    digest,
     routerKind: context.routerKind,
     routeType: context.routeType,
   });

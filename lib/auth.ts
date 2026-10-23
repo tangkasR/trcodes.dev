@@ -102,8 +102,11 @@ export async function deleteSession(sessionUuid?: string) {
   (await cookies()).delete(SESSION_COOKIE);
 }
 
+import { connection } from "next/server";
+
 // cache(): dalam satu request, query user hanya dijalankan sekali
 export const getSession = cache(async (): Promise<Session | null> => {
+  await connection();
   const token = (await cookies()).get(SESSION_COOKIE)?.value;
 
   if (!token) return null;
@@ -221,6 +224,7 @@ export async function createMfaChallenge(
 }
 
 export async function readMfaChallenge(): Promise<MfaChallenge | null> {
+  await connection();
   const token = (await cookies()).get(MFA_CHALLENGE_COOKIE)?.value;
   if (!token) return null;
 
@@ -276,6 +280,7 @@ export async function createMfaSetupTicket(
 }
 
 export async function readMfaSetupTicket(): Promise<MfaSetupTicket | null> {
+  await connection();
   const token = (await cookies()).get(MFA_SETUP_COOKIE)?.value;
   if (!token) return null;
 
