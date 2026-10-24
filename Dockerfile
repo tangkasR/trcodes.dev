@@ -41,6 +41,10 @@ COPY --from=builder /app/prisma ./prisma
 COPY --from=builder /app/prisma7.config.ts ./prisma7.config.ts
 COPY --from=builder /app/config.ts ./config.ts
 COPY --from=builder /app/tsconfig.json ./tsconfig.json
+# WAJIB: next start membaca next.config.ts saat runtime. Tanpa file ini,
+# cacheComponents nonaktif di runtime (beda dengan saat build) sehingga
+# halaman dinamis (/dashboard) gagal dengan digest DYNAMIC_SERVER_USAGE.
+COPY --from=builder /app/next.config.ts ./next.config.ts
 
 USER nextjs
 
