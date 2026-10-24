@@ -71,8 +71,6 @@ export async function proxy(request: NextRequest) {
     pathname.startsWith("/blog/") ||
     pathname.startsWith("/experiences/");
 
-  if (isPublic) return nextWithCsp(request);
-
   const token = request.cookies.get(SESSION_COOKIE)?.value;
   const secret = process.env.SESSION_SECRET;
 
@@ -87,6 +85,13 @@ export async function proxy(request: NextRequest) {
       // token rusak atau kedaluwarsa
     }
   }
+
+  // Pengguna yang sudah login diarahkan ke dashboard jika mengakses /login atau /login/mfa
+  if (valid && (pathname === "/login" || pathname === "/login/mfa")) {
+    return NextResponse.redirect(new URL("/dashboard", request.url));
+  }
+
+  if (isPublic) return nextWithCsp(request);
 
   if (!valid) return NextResponse.redirect(new URL("/login", request.url));
   return nextWithCsp(request);
