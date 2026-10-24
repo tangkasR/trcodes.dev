@@ -28,12 +28,9 @@ const nextConfig: NextConfig = {
   async headers() {
     return [{ source: "/:path*", headers: securityHeaders }];
   },
-  /* config options here */
   cacheComponents: true,
-  partialPrefetching: true,
+  partialPrefetching: false,
   turbopack: {
-
-
     rules: {
       "*.css": {
         // Do not run Tailwind over Next's generated font CSS (it breaks

@@ -14,7 +14,7 @@ import {
   BookOpen,
 } from "lucide-react";
 import { NAV_GROUPS } from "@/config";
-import { getPermissionMap, getSession, isSuperAdminMfaEnforced } from "@/lib/auth";
+import { getPermissionMap, getSession } from "@/lib/auth";
 import { formatDateTime } from "@/utils/format-date-time";
 import { getDashboardStats } from "../dashboard.queries";
 
@@ -25,13 +25,7 @@ export default async function DashboardPage() {
   const session = await getSession();
   if (!session) redirect("/login");
 
-  if (
-    isSuperAdminMfaEnforced() &&
-    session.roleName === "Super Admin" &&
-    !session.mfaEnabled
-  ) {
-    redirect("/dashboard/security?setup_required=1");
-  }
+
 
   const [permissions, stats] = await Promise.all([
     getPermissionMap(session.roleUuid),

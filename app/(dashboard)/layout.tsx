@@ -8,7 +8,6 @@ import { PermissionProvider } from "@/context/PermissionContext";
 import { SidebarProvider } from "@/context/SidebarContext";
 import DashboardSidebar from "@/components/DashboardSidebar";
 import DashboardHeader from "@/components/DashboardHeader";
-import DashboardShellSkeleton from "@/components/skeletons/DashboardShellSkeleton";
 import DashboardPageSkeleton from "@/components/skeletons/DashboardPageSkeleton";
 import { Geist, Geist_Mono } from "next/font/google";
 import "../globals.css";
@@ -27,21 +26,13 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export default function DashboardLayout({
+import { connection } from "next/server";
+
+export default async function DashboardLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  return (
-    <Suspense fallback={<DashboardShellSkeleton />}>
-      <DashboardShell>{children}</DashboardShell>
-    </Suspense>
-  );
-}
-
-import { connection } from "next/server";
-
-async function DashboardShell({ children }: { children: React.ReactNode }) {
   await connection();
   const session = await getSession();
   if (!session) redirect("/login");
