@@ -24,8 +24,8 @@ export const onRequestError: Instrumentation.onRequestError = async (
       ? String((err as Record<string, unknown>).digest)
       : undefined;
 
-  // Abaikan sinyal internal Next.js untuk redirect
-  if (digest === "NEXT_REDIRECT") {
+  // Abaikan sinyal internal Next.js untuk redirect dan dynamic server usage bailout
+  if (digest === "NEXT_REDIRECT" || digest === "DYNAMIC_SERVER_USAGE") {
     return;
   }
 
