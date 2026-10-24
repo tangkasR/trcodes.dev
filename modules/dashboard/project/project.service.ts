@@ -1,14 +1,8 @@
 // src/modules/project/project.service.ts
 import "server-only";
 import { prisma } from "@/lib/db";
-import { AppError } from "@/utils/errors";
+import { AppError, errorCode } from "@/utils/errors";
 import type { ProjectInput } from "./project.schema";
-
-function errorCode(e: unknown) {
-  return typeof e === "object" && e !== null && "code" in e
-    ? String((e as Record<string, unknown>).code)
-    : undefined;
-}
 
 export async function createProject(input: ProjectInput) {
   try {

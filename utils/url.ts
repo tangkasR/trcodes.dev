@@ -33,10 +33,6 @@ export function isMediaUrl(value: string): boolean {
   return isHttpUrl(trimmed);
 }
 
-export function safeMediaUrl(value: string | null | undefined): string {
-  return value && isMediaUrl(value) ? value : "";
-}
-
 export function safeHttpUrl(value: string | null | undefined): string {
   return value && isHttpUrl(value) ? value : "";
 }

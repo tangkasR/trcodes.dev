@@ -86,7 +86,7 @@ export function totpUri(email: string, secret: string) {
   return `otpauth://totp/${label}?${params.toString()}`;
 }
 
-export function normalizeTotpCode(code: string) {
+function normalizeTotpCode(code: string) {
   return code.replace(/\s+/g, "");
 }
 
@@ -117,7 +117,7 @@ export function generateRecoveryCodes(count = 10) {
   });
 }
 
-export function normalizeRecoveryCode(code: string) {
+function normalizeRecoveryCode(code: string) {
   return code.trim().toLowerCase().replace(/[^a-z0-9]/g, "");
 }
 

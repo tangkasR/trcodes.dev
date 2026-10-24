@@ -1,16 +1,10 @@
 import "server-only";
 import { prisma } from "@/lib/db";
 import type { Prisma } from "@/app/generated/prisma/client";
-import { AppError } from "@/utils/errors";
+import { AppError, errorCode } from "@/utils/errors";
 import type { ContactLinkInput, ContactPlatform } from "./contact-link.schema";
 
 type Db = Pick<Prisma.TransactionClient, "contactLink">;
-
-function errorCode(e: unknown) {
-  return typeof e === "object" && e !== null && "code" in e
-    ? String(e.code)
-    : undefined;
-}
 
 // Memastikan platform belum digunakan.
 async function assertContactNameAvailable(

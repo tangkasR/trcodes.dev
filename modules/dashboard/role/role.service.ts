@@ -2,17 +2,11 @@
 import "server-only";
 import { prisma } from "@/lib/db";
 import type { Prisma } from "@/app/generated/prisma/client";
-import { AppError } from "@/utils/errors";
+import { AppError, errorCode } from "@/utils/errors";
 import { PROTECTED_ROLE_NAMES } from "@/config";
 import type { RoleInput } from "./role.schema";
 
 type Db = Pick<Prisma.TransactionClient, "role">;
-
-function errorCode(e: unknown) {
-  return typeof e === "object" && e !== null && "code" in e
-    ? String(e.code)
-    : undefined;
-}
 
 // Nama unik tanpa membedakan huruf besar/kecil
 async function assertNameAvailable(db: Db, name: string, excludeUuidd?: string) {

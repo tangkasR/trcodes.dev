@@ -1,15 +1,9 @@
 // src/modules/chapter/chapter.service.ts
 import "server-only";
 import { prisma } from "@/lib/db";
-import { AppError } from "@/utils/errors";
+import { AppError, errorCode } from "@/utils/errors";
 import type { ChapterInput } from "./chapter.schema";
 import type { Prisma } from "@/app/generated/prisma/client";
-
-function errorCode(e: unknown) {
-  return typeof e === "object" && e !== null && "code" in e
-    ? String((e as Record<string, unknown>).code)
-    : undefined;
-}
 
 export async function createChapter(input: ChapterInput) {
   try {

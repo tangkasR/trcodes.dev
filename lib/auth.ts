@@ -342,7 +342,7 @@ export const getPermissionMap = cache(
   }
 );
 
-export function isSuperAdminMfaEnforced(): boolean {
+function isSuperAdminMfaEnforced(): boolean {
   return process.env.ENFORCE_SUPER_ADMIN_MFA === "true";
 }
 

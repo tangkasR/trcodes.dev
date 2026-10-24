@@ -12,8 +12,6 @@ export function projectHash(slug: string): string {
 export const chapterUrl = (projectSlug: string, chapterSlug: string) =>
   `/blog/${projectSlug}/${chapterSlug}`;
 
-export const experienceUrl = (slug: string) => `/experiences/${slug}`;
-
 /**
  * Use a stored image URL when it is absolute. The seeded relative paths point
  * at files that do not exist in /public, so fall back to a deterministic
