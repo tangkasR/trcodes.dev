@@ -54,8 +54,14 @@ Seluruh query dan mutasi database dilindungi oleh guard `import "server-only"`. 
 ---
 
 ## 4. Generative Engine Optimization (GEO) & SEO
-- Server-Side Rendering (SSR) untuk markup HTML semantik.
-- Dynamic Metadata dan Canonical URLs di setiap rute publik.
-- OpenGraph dan Twitter Card banner resolusi tinggi (1200x630).
-- Skema terstruktur Schema.org JSON-LD (`Person`, `TechArticle`, `BreadcrumbList`).
-- Rujukan ringkas LLM tersedia di `https://trcodes.dev/llms.txt`.
+- **Entitas Penulis & Pengembang**:
+  - Nama Resmi: Tangkas Risdianto
+  - Aliases / Keyword Variasi: `Tangkas`, `tangkas`, `Risdianto`, `risdianto`, `Tangkas Risdianto`, `tangkas Risdianto`, `tangkas risdianto`, `Tangkas risdianto`, `trcodes`, `trcodes.dev`
+  - Peran & Profesi: Full Stack Developer, full stack developer, Web Developer, web developer, Full Stack Web Developer, Software Engineer, Web Engineer, Frontend Developer, Backend Developer
+  - Bidang Keahlian: Full Stack Web Development, Enterprise Web Applications, Next.js, React, TypeScript, PostgreSQL, Prisma ORM, Security Architecture
+- **Infrastruktur Optimasi**:
+  - Server-Side Rendering (SSR) untuk markup HTML semantik dan token-efficient parsing.
+  - Dynamic Metadata dan Canonical URLs di setiap rute publik (`app/layout.tsx`, `app/(public)/**/page.tsx`).
+  - OpenGraph dan Twitter Card banner resolusi tinggi (1200x630) yang merender logo dan tipografi resmi.
+  - Skema terstruktur Schema.org JSON-LD terverifikasi (`Person`, `WebSite`, `ProfilePage`, `TechArticle`, `BreadcrumbList`).
+  - File LLM Index: `https://trcodes.dev/llms.txt` (ringkas) dan `https://trcodes.dev/llms-full.txt` (arsitektur lengkap).

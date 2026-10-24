@@ -5,6 +5,7 @@ import {
   DEFAULT_SITE_DESCRIPTION,
   DEFAULT_SITE_TITLE,
   getSiteUrl,
+  SEO_KEYWORDS,
   SITE_NAME,
 } from "@/utils/site";
 import "./globals.css";
@@ -28,17 +29,35 @@ export const metadata: Metadata = {
   metadataBase: new URL(getSiteUrl()),
   title: {
     default: DEFAULT_SITE_TITLE,
-    template: "%s | trcodes",
+    template: "%s | Tangkas Risdianto — trcodes",
   },
   description: DEFAULT_SITE_DESCRIPTION,
+  keywords: SEO_KEYWORDS,
+  authors: [
+    { name: "Tangkas Risdianto", url: getSiteUrl() },
+    { name: "tangkas risdianto", url: getSiteUrl() },
+  ],
+  creator: "Tangkas Risdianto",
+  publisher: "Tangkas Risdianto (trcodes.dev)",
   alternates: {
     canonical: "./",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
   },
   openGraph: {
     type: "website",
     locale: "id_ID",
     url: "/",
-    siteName: SITE_NAME,
+    siteName: `${SITE_NAME} — Tangkas Risdianto | Full Stack Developer`,
     title: DEFAULT_SITE_TITLE,
     description: DEFAULT_SITE_DESCRIPTION,
   },
@@ -46,6 +65,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: DEFAULT_SITE_TITLE,
     description: DEFAULT_SITE_DESCRIPTION,
+    creator: "@trcodes",
   },
   icons: {
     icon: [
