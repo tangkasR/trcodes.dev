@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import {
   ChevronRight,
@@ -80,6 +81,23 @@ export default function DashboardHeader() {
         >
           <Menu className="size-5" />
         </button>
+
+        <Link
+          href="/dashboard"
+          className="flex items-center gap-1.5 md:hidden"
+          aria-label="Beranda Dashboard"
+        >
+          <span className="flex size-7 items-center justify-center rounded-lg bg-slate-900 p-1 ring-1 ring-slate-800">
+            <Image
+              src="/imglogo.png"
+              alt="trcodes logo"
+              width={20}
+              height={20}
+              className="size-5 object-contain invert"
+              priority
+            />
+          </span>
+        </Link>
         <button
           type="button"
           onClick={toggleCollapsed}

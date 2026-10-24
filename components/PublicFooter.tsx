@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { chapterUrl } from "@/utils/public-links";
 import type { Profile, Project } from "@/modules/public/home/home.schema";
 
@@ -14,10 +15,21 @@ export default function PublicFooter({
       <div className="mx-auto max-w-5xl">
         <div className="grid gap-12 md:grid-cols-12">
           <div className="md:col-span-4">
-            <p className="font-display text-2xl font-extrabold">
-              {profile?.contentName}
-            </p>
-            <p className="mt-3 text-ash">
+            <div className="flex items-center gap-3">
+              <span className="flex size-10 items-center justify-center rounded-lg border-2 border-white/20 bg-paper p-1.5 shadow-[2px_2px_0px_rgba(255,255,255,0.2)]">
+                <Image
+                  src="/imglogo.png"
+                  alt="trcodes logo"
+                  width={28}
+                  height={28}
+                  className="size-7 object-contain"
+                />
+              </span>
+              <p className="font-display text-2xl font-extrabold">
+                {profile?.contentName ?? "trcodes.dev"}
+              </p>
+            </div>
+            <p className="mt-4 text-ash">
               {profile?.tagline} Oleh {profile?.fullName}.
             </p>
           </div>

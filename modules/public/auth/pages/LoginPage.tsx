@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useActionState, useEffect, useState } from "react";
 import {
   ArrowLeft,
@@ -9,7 +10,6 @@ import {
   EyeOff,
   LockKeyhole,
   Mail,
-  ShieldCheck,
   Sparkles,
 } from "lucide-react";
 import { login } from "../auth.actions";
@@ -38,10 +38,17 @@ const LoginPage = () => {
           <section className="hidden lg:block">
             <Link
               href="/"
-              className="inline-flex items-center gap-3 font-display text-xl font-extrabold tracking-tight"
+              className="group inline-flex items-center gap-3 font-display text-xl font-extrabold tracking-tight transition hover:opacity-85"
             >
-              <span className="flex size-11 items-center justify-center bg-ink text-paper">
-                <ShieldCheck className="size-5" />
+              <span className="flex size-11 items-center justify-center border-2 border-ink bg-white p-1.5 shadow-[3px_3px_0px_#1b1a17] transition-transform group-hover:-translate-y-0.5">
+                <Image
+                  src="/imglogo.png"
+                  alt="trcodes logo"
+                  width={32}
+                  height={32}
+                  className="size-7.5 object-contain"
+                  priority
+                />
               </span>
               trcodes<span className="text-graphite">.</span>
             </Link>
@@ -89,6 +96,21 @@ const LoginPage = () => {
             <div className="box bg-white p-6 sm:p-8">
               <div className="flex items-start justify-between gap-4">
                 <div>
+                  <div className="mb-3 flex items-center gap-2 lg:hidden">
+                    <span className="flex size-8 items-center justify-center border-2 border-ink bg-white p-1 shadow-[2px_2px_0px_#1b1a17]">
+                      <Image
+                        src="/imglogo.png"
+                        alt="trcodes logo"
+                        width={22}
+                        height={22}
+                        className="size-5 object-contain"
+                        priority
+                      />
+                    </span>
+                    <span className="font-display font-extrabold text-ink">
+                      trcodes<span className="text-graphite">.</span>
+                    </span>
+                  </div>
                   <p className="kick text-xs uppercase tracking-[0.18em]">
                     Masuk
                   </p>
@@ -99,8 +121,14 @@ const LoginPage = () => {
                     Masuk ke akun admin untuk melanjutkan.
                   </p>
                 </div>
-                <span className="flex size-11 shrink-0 items-center justify-center border-2 border-ink bg-paper">
-                  <LockKeyhole className="size-5" />
+                <span className="flex size-11 shrink-0 items-center justify-center border-2 border-ink bg-paper p-1.5 shadow-[2px_2px_0px_#1b1a17]">
+                  <Image
+                    src="/imglogo.png"
+                    alt="trcodes logo"
+                    width={28}
+                    height={28}
+                    className="size-7 object-contain"
+                  />
                 </span>
               </div>
 

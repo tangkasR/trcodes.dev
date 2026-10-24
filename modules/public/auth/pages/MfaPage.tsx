@@ -1,8 +1,9 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useActionState, useEffect } from "react";
-import { ArrowLeft, ArrowRight, KeyRound, ShieldCheck } from "lucide-react";
+import { ArrowLeft, ArrowRight, KeyRound } from "lucide-react";
 import { verifyMfaLogin } from "../auth.actions";
 import { swalError } from "@/utils/swal";
 
@@ -31,10 +32,17 @@ export default function MfaPage({ email }: { email: string }) {
           <section className="hidden lg:block">
             <Link
               href="/"
-              className="inline-flex items-center gap-3 font-display text-xl font-extrabold tracking-tight"
+              className="group inline-flex items-center gap-3 font-display text-xl font-extrabold tracking-tight transition hover:opacity-85"
             >
-              <span className="flex size-11 items-center justify-center bg-ink text-paper">
-                <ShieldCheck className="size-5" />
+              <span className="flex size-11 items-center justify-center border-2 border-ink bg-white p-1.5 shadow-[3px_3px_0px_#1b1a17] transition-transform group-hover:-translate-y-0.5">
+                <Image
+                  src="/imglogo.png"
+                  alt="trcodes logo"
+                  width={32}
+                  height={32}
+                  className="size-7.5 object-contain"
+                  priority
+                />
               </span>
               trcodes<span className="text-graphite">.</span>
             </Link>
@@ -55,6 +63,21 @@ export default function MfaPage({ email }: { email: string }) {
             <div className="box bg-white p-6 sm:p-8">
               <div className="flex items-start justify-between gap-4">
                 <div className="min-w-0">
+                  <div className="mb-3 flex items-center gap-2 lg:hidden">
+                    <span className="flex size-8 items-center justify-center border-2 border-ink bg-white p-1 shadow-[2px_2px_0px_#1b1a17]">
+                      <Image
+                        src="/imglogo.png"
+                        alt="trcodes logo"
+                        width={22}
+                        height={22}
+                        className="size-5 object-contain"
+                        priority
+                      />
+                    </span>
+                    <span className="font-display font-extrabold text-ink">
+                      trcodes<span className="text-graphite">.</span>
+                    </span>
+                  </div>
                   <p className="kick text-xs uppercase tracking-[0.18em]">
                     MFA
                   </p>
@@ -65,8 +88,14 @@ export default function MfaPage({ email }: { email: string }) {
                     {email}
                   </p>
                 </div>
-                <span className="flex size-11 shrink-0 items-center justify-center border-2 border-ink bg-paper">
-                  <KeyRound className="size-5" />
+                <span className="flex size-11 shrink-0 items-center justify-center border-2 border-ink bg-paper p-1.5 shadow-[2px_2px_0px_#1b1a17]">
+                  <Image
+                    src="/imglogo.png"
+                    alt="trcodes logo"
+                    width={28}
+                    height={28}
+                    className="size-7 object-contain"
+                  />
                 </span>
               </div>
 

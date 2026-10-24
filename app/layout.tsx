@@ -47,6 +47,16 @@ export const metadata: Metadata = {
     title: DEFAULT_SITE_TITLE,
     description: DEFAULT_SITE_DESCRIPTION,
   },
+  icons: {
+    icon: [
+      { url: "/imglogo.png", type: "image/png" },
+      { url: "/icon", sizes: "32x32", type: "image/png" },
+    ],
+    apple: [
+      { url: "/imglogo.png", type: "image/png" },
+      { url: "/apple-icon", sizes: "180x180", type: "image/png" },
+    ],
+  },
 };
 
 export default function RootLayout({

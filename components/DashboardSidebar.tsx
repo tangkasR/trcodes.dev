@@ -2,9 +2,10 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef } from "react";
-import { ExternalLink, ShieldCheck } from "lucide-react";
+import { ExternalLink } from "lucide-react";
 import { NAV_GROUPS } from "@/config";
 import { usePermission } from "@/context/PermissionContext";
 import { useSidebar } from "@/context/SidebarContext";
@@ -54,8 +55,15 @@ export default function DashboardSidebar() {
           href="/dashboard"
           className="flex h-16 shrink-0 items-center gap-3 border-b border-white/10 px-4 transition hover:bg-white/5"
         >
-          <span className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-blue-500 via-indigo-500 to-cyan-400 text-white shadow-md shadow-blue-500/30">
-            <ShieldCheck className="size-5" />
+          <span className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-white p-1 shadow-md shadow-white/10 ring-1 ring-white/20">
+            <Image
+              src="/imglogo.png"
+              alt="trcodes logo"
+              width={26}
+              height={26}
+              className="size-6 object-contain"
+              priority
+            />
           </span>
           <div className={`min-w-0 ${hideOnCollapsed}`}>
             <p className="truncate text-sm font-bold tracking-tight text-white">
